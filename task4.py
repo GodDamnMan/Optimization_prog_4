@@ -17,6 +17,7 @@ class NonlinearPA:
                           2: "Golden Section Method for Unimodal Function Optimization", 
                           3: "Gradient Ascent Method for Maximizing a Function"}
         
+
     def function1(self, x:float):
         return x**3 - 6*x**2 + 11*x - 6
     
@@ -26,8 +27,12 @@ class NonlinearPA:
     def function3(self, x:float):
         return -1*x**2 + 4*x + 1
     
+    def gradient3(self, x:float):
+        return -2*x + 4
+    
+    
     def getInput(self):
-        print("Task", self.taskNum, self.taskNames.get(self.taskNum))
+        print("\nTask", self.taskNum, self.taskNames.get(self.taskNum))
         if(self.taskNum != 3):
             self.interval = tuple(int(x) for x in input("Initial interval: ").split())
             self.tolerance = float(input("Tolerance: "))
@@ -46,10 +51,26 @@ class NonlinearPA:
         elif(self.taskNum == 3):
             self.GradientAscent()
         
-    #TODO
+
+
+    
     def Bisection(self):
-        pass
+        a = min(self.interval)
+        b = max(self.interval)
+        while b - a > self.tolerance:
+            mid = (a + b) / 2
+            if self.function1(mid) * self.function1(a) < 0:
+                b = mid
+            else:
+                a = mid
+
+        mid = (a + b) / 2
+        print()
+        print("Approximate root:", mid)
+
             
+
+
     def GoldenSection(self):
         interval = self.interval
         while(interval[1] - interval[0] > self.tolerance):
@@ -61,14 +82,28 @@ class NonlinearPA:
                 interval = (x_1, interval[1])
             elif(self.function2(x_1) == self.function2(x_2)):
                 interval = (x_1, x_2)
+        print()
         print("Approximate x_min:", interval[0]+ (interval[1] - interval[0])/2)
         print("Approximate f(x_min)", self.function2(interval[0]+ (interval[1] - interval[0])/2))
     
-    #TODO
+
+
+
     def GradientAscent(self):
-        pass        
+        x = self.initial_guess
+        for _ in range(self.number_iterations):
+            x += self.learning_rate * self.gradient3(x)
+        print()
+        print("Approximate x_max:", x)
+        print("Approximate f(x_max)", self.function3(x))
+
+
+
+
 
 #use it as an example of how to call functions
 #works correctly u can check)
-task2 = NonlinearPA(3)
-task2.doTask()
+n = int(input("task number? "))
+
+solver = NonlinearPA(n)
+solver.doTask()
