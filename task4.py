@@ -103,7 +103,7 @@ class NonlinearPA:
 
 #use it as an example of how to call functions
 #works correctly u can check)
-n = int(input("task number? "))
+n = int(input("Task number : "))
 
 solver = NonlinearPA(n)
 solver.doTask()
